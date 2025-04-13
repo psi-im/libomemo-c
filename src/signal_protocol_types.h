@@ -8,7 +8,9 @@
 #include <unistd.h>
 #else
 #include <basetsd.h>
+#if defined(SSIZE_T) && !defined(ssize_t)
 typedef SSIZE_T ssize_t;
+#endif
 #endif
 
 #ifdef __cplusplus
