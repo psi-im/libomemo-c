@@ -7,6 +7,13 @@ else()
     find_package(Protobuf_C REQUIRED)
 endif()
 
+if(EXISTS "${CMAKE_TOOLCHAIN_FILE}")
+    string(TOLOWER ${CMAKE_TOOLCHAIN_FILE} TOOLCHAIN_FILE)
+    string(REGEX MATCH "mxe-conf" MXE_DETECTED "${TOOLCHAIN_FILE}")
+    if(MXE_DETECTED)
+        message(STATUS "MXE detected")
+    endif()
+endif()
 
 set(protobuf_SRCS
     LocalStorageProtocol.pb-c.c
@@ -69,6 +76,10 @@ elseif(BUILD_WITH_PROTOBUF STREQUAL static)
     target_link_libraries(${PROJECT_NAME} PUBLIC Protobuf_C::Protobuf_C)
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE Protobuf_C::Protobuf_C)
+endif()
+
+if(MXE_DETECTED)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE _MXE_CC)
 endif()
 
 if(BUILD_SHARED_LIBS)

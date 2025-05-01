@@ -8,7 +8,7 @@
 #include <unistd.h>
 #else
 #include <basetsd.h>
-#ifndef ssize_t
+#ifndef _MXE_CC
 typedef SSIZE_T ssize_t;
 #endif
 #endif
